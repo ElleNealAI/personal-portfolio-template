@@ -1,0 +1,337 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 240 10% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 3.9%;
+    --primary: 224 82% 56%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 240 4.8% 95.9%;
+    --secondary-foreground: 240 5.9% 10%;
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%;
+    --accent: 240 4.8% 95.9%;
+    --accent-foreground: 240 5.9% 10%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+    --ring: 240 5.9% 10%;
+    --radius: 0.5rem;
+    --chart-1: 12 76% 61%;
+    --chart-2: 173 58% 39%;
+    --chart-3: 197 37% 24%;
+    --chart-4: 43 74% 66%;
+    --chart-5: 27 87% 67%;
+  }
+
+  .dark {
+    --background: 222 47% 11%;
+    --foreground: 0 0% 98%;
+    --card: 240 10% 3.9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 240 10% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 0 0% 98%;
+    --primary-foreground: 240 5.9% 10%;
+    --secondary: 240 3.7% 15.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 240 3.7% 15.9%;
+    --muted-foreground: 240 5% 64.9%;
+    --accent: 240 3.7% 15.9%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 240 4.9% 83.9%;
+    --chart-1: 220 70% 50%;
+    --chart-2: 160 60% 45%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
+  }
+}
+
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+}
+
+@layer components {
+  .gradient-heading {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-primary/80 to-primary;
+  }
+  
+  .gradient-border {
+    --border-width: 3px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    border-radius: calc(var(--border-width) * 2);
+    margin-bottom: 2rem;
+    z-index: 0;
+    overflow: hidden;
+  }
+  
+  .improved-border {
+    width: auto;
+    margin-bottom: 0;
+    padding: 0.5rem;
+  }
+  
+  .gradient-border::before {
+    content: '';
+    position: absolute;
+    z-index: -2;
+    left: -50%;
+    top: -50%;
+    width: 200%;
+    height: 200%;
+    background-color: transparent;
+    background-repeat: no-repeat;
+    background-size: 50% 50%, 50% 50%;
+    background-position: 0 0, 100% 0, 100% 100%, 0 100%;
+    background-image: linear-gradient(#00C6FF, #0072FF);
+    animation: rotate 8s linear infinite;
+  }
+  
+  .gradient-border::after {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    left: 3px;
+    top: 3px;
+    width: calc(100% - 6px);
+    height: calc(100% - 6px);
+    background: hsl(var(--background));
+    border-radius: 0.3rem;
+  }
+  
+  @keyframes rotate {
+    100% {
+      transform: rotate(1turn);
+    }
+  }
+  
+  .fade-in {
+    animation: fadeIn 0.7s ease-in forwards;
+  }
+  
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .staggered-fade-in > * {
+    opacity: 0;
+    animation: fadeIn 0.7s ease-in forwards;
+  }
+  
+  .staggered-fade-in > *:nth-child(1) { animation-delay: 0.1s; }
+  .staggered-fade-in > *:nth-child(2) { animation-delay: 0.3s; }
+  .staggered-fade-in > *:nth-child(3) { animation-delay: 0.5s; }
+  .staggered-fade-in > *:nth-child(4) { animation-delay: 0.7s; }
+  
+  .btn-primary {
+    @apply px-8 py-4 bg-primary text-black rounded-md transition-all duration-200 transform hover:scale-105 hover:shadow-lg font-medium;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .btn-primary::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255,255,255,0.1);
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+  }
+  
+  .btn-primary:hover::before {
+    transform: translateX(0);
+  }
+  
+  .btn-secondary {
+    @apply px-8 py-4 border border-gray-300 dark:border-gray-700 rounded-md transition-all duration-200 backdrop-blur-sm bg-white/10 dark:bg-black/10 hover:bg-white/20 dark:hover:bg-black/20 hover:shadow-lg text-white font-medium;
+  }
+
+  .image-placeholder {
+    position: relative;
+    overflow: hidden;
+    @apply rounded-lg;
+  }
+
+  .image-placeholder::before {
+    content: '';
+    position: absolute;
+    width: 150%;
+    height: 150%;
+    background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0) 100%);
+    transform: rotate(45deg) translateY(-50%) translateX(-50%);
+    animation: shine 3s infinite ease-in-out;
+  }
+
+  @keyframes shine {
+    0% { transform: rotate(45deg) translateY(-100%) translateX(-100%); }
+    100% { transform: rotate(45deg) translateY(100%) translateX(100%); }
+  }
+
+  .portfolio-card {
+    @apply bg-white/5 dark:bg-black/5 backdrop-filter backdrop-blur-sm rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300;
+    transform: perspective(1000px) rotateY(0deg);
+    transition: transform 0.5s ease;
+  }
+
+  .portfolio-card:hover {
+    transform: perspective(1000px) rotateY(5deg);
+  }
+  
+  .hero-gradient {
+    background: linear-gradient(90deg, rgba(15,23,42,1) 0%, rgba(15,23,42,0.95) 50%, rgba(0,0,0,1) 100%);
+  }
+  
+  /* About page animations */
+  .slide-up-fade-in {
+    animation: slide-up-fade-in 0.8s ease forwards;
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  
+  .animation-delay-200 {
+    animation-delay: 0.2s;
+  }
+  
+  .animation-delay-400 {
+    animation-delay: 0.4s;
+  }
+  
+  @keyframes slide-up-fade-in {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* Projects page animations */
+  .animate-gallery {
+    animation: fade-in 0.5s ease-out forwards;
+  }
+  
+  .project-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .project-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 10px 10px -5px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Contact page animations */
+  .social-icon-link {
+    transition: transform 0.3s ease;
+    display: inline-block;
+  }
+  
+  .social-icon-link:hover {
+    transform: translateY(-3px);
+  }
+  
+  .success-message {
+    animation: fade-scale-in 0.5s cubic-bezier(0.26, 0.53, 0.74, 1.48) forwards;
+  }
+  
+  @keyframes fade-scale-in {
+    0% {
+      opacity: 0;
+      transform: scale(0.8);
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  
+  @keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  
+  .hero-illustration {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+  }
+  
+  .professional-portrait {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    transition: none;
+    transform: none;
+    backface-visibility: visible;
+    will-change: auto;
+    image-rendering: auto;
+  }
+  
+  .svg-image {
+    width: 100%;
+    height: auto;
+    max-height: 750px;
+    object-fit: contain;
+  }
+  
+  /* Remove hover animation that was causing quality degradation */
+  .professional-portrait-container:hover .professional-portrait {
+    transform: none;
+  }
+  
+  .portrait-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 50%, rgba(0,0,0,0) 100%);
+    padding: 2rem 1.5rem;
+    color: white;
+  }
+  
+  .portrait-name {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+  }
+  
+  .portrait-title {
+    font-size: 1rem;
+    font-weight: 400;
+    opacity: 0.9;
+  }
+}
